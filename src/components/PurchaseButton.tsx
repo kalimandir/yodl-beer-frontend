@@ -1,10 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import YappSDK, { FiatCurrency } from '@yodlpay/yapp-sdk';
 import type { BeerTap } from '@/types/beer';
+import { useMutation } from '@tanstack/react-query';
+import YappSDK, { FiatCurrency } from '@yodlpay/yapp-sdk';
 
 interface PurchaseButtonProps {
-  beerTap: BeerTap;
+  beerTap: BeerTap['beerTaps'][number];
   variant?: 'default' | 'outline' | 'secondary';
 }
 
@@ -13,12 +13,13 @@ const sdk = new YappSDK();
 export default function PurchaseButton({ beerTap, variant = 'default' }: PurchaseButtonProps) {
   const paymentMutation = useMutation({
     mutationFn: async () => {
+      const { origin, pathname } = window.location;
       return await sdk.requestPayment({
         addressOrEns: beerTap.transactionReceiverEns,
         amount: parseFloat(beerTap.transactionAmount),
         currency: beerTap.transactionCurrency as FiatCurrency,
         memo: beerTap.transactionMemo,
-        redirectUrl: window.location.href,
+        redirectUrl: `${origin}${pathname}`, // We don't want to pass params to the redirect url
       });
     },
     onSuccess: response => {

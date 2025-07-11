@@ -2,15 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearch } from '@tanstack/react-router';
 import YappSDK, { type Hex, type PaymentSimple } from '@yodlpay/yapp-sdk';
 import { CheckCircle2 } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import type { BeerTapsResponse } from '@/types/beer';
+import { fetchStatus } from '@/lib/api';
+import { cn } from '@/lib/utils';
+import type { BeerTap, ServerResponse } from '@/types/beer';
 
 interface PaymentSuccessDialogProps {
   location: string;
-  beerTapsResponse: BeerTapsResponse;
+  beerTapsResponse: ServerResponse<BeerTap>;
 }
 
 export default function PaymentSuccessDialog({ location, beerTapsResponse }: PaymentSuccessDialogProps) {
@@ -54,13 +56,67 @@ export default function PaymentSuccessDialog({ location, beerTapsResponse }: Pay
     enabled: !!txHash,
   });
 
-  const shouldShowDialog = txHash && !isLoading && !error && payment;
+  const { data: statusResponse } = useQuery({
+    queryKey: ['status', txHash],
+    queryFn: async () => {
+      const status = await fetchStatus(txHash as Hex);
+      return status.data;
+    },
+    enabled: !!txHash,
+    refetchInterval: query => {
+      const data = query.state.data;
+      const isTerminalState = data?.status === 'completed' || data?.status === 'failed';
+      return isTerminalState ? false : 1000;
+    },
+  });
+
+  const title = useMemo(() => {
+    switch (statusResponse?.status) {
+      case 'not_found':
+        return 'Searching for Suds...';
+      case 'processing':
+        return 'Pouring Your Beer...';
+      case 'queued':
+        return 'Beer Queue: Anticipation Rising!';
+      case 'completed':
+        return 'Cheers! Your beer is ready.';
+      case 'failed':
+        return 'No Beer for You (Payment Failed)';
+      default:
+        return 'Status: Unknown Brew';
+    }
+  }, [statusResponse]);
+
+  const description = useMemo(() => {
+    switch (statusResponse?.status) {
+      case 'completed':
+        return `🍻 Cheers! Your beer at ${location.toUpperCase()} is ready. Enjoy every sip!`;
+      case 'failed':
+        return `😢 Oops! Something went wrong with your beer order at ${location.toUpperCase()}. No suds this time.`;
+      case 'not_found':
+        return `🔍 We're looking for your payment at ${location.toUpperCase()}... hang tight, your beer adventure is loading!`;
+      case 'queued':
+        return `⏳ You're in queue position ${statusResponse.queuePosition} for a beer at ${location.toUpperCase()}. The tap is almost yours!`;
+      case 'processing':
+        return `🍺 Your beer at ${location.toUpperCase()} is being poured. Get ready!`;
+      default:
+        return `🕒 Your beer purchase at ${location.toUpperCase()} is being processed. Stay thirsty!`;
+    }
+  }, [statusResponse, location]);
+
+  const shouldShowDialog = txHash && !isLoading && !error && payment && statusResponse;
 
   if (!shouldShowDialog) {
     return null;
   }
 
-  const handleClose = () => setIsOpen(false);
+  const handleClose = () => {
+    if (statusResponse?.status !== 'completed') {
+      return;
+    }
+
+    return setIsOpen(false);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -69,13 +125,11 @@ export default function PaymentSuccessDialog({ location, beerTapsResponse }: Pay
           <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100'>
             <CheckCircle2 className='h-8 w-8 text-green-600' />
           </div>
-          <DialogTitle className='text-xl'>Payment Successful!</DialogTitle>
-          <DialogDescription className='text-base'>
-            Your beer purchase at {location.toUpperCase()} has been completed successfully.
-          </DialogDescription>
+          <DialogTitle className='text-xl'>{title}</DialogTitle>
+          <DialogDescription className='text-base'>{description}</DialogDescription>
         </DialogHeader>
 
-        <div className='space-y-4'>
+        <div className={cn('mt-4', statusResponse?.status !== 'completed' && 'hidden')}>
           <Button onClick={handleClose} className='w-full'>
             Continue Shopping
           </Button>

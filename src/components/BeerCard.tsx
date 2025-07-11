@@ -4,7 +4,7 @@ import type { BeerTap } from '@/types/beer';
 import ReactMarkdown from 'react-markdown';
 
 interface BeerCardProps {
-  beerTap: BeerTap;
+  beerTap: BeerTap['beerTaps'][number];
 }
 
 export default function BeerCard({ beerTap }: BeerCardProps) {

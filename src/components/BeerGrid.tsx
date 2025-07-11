@@ -2,7 +2,7 @@ import BeerCard from '@/components/BeerCard';
 import type { BeerTap } from '@/types/beer';
 
 interface BeerGridProps {
-  beers: BeerTap[];
+  beers: BeerTap['beerTaps'];
 }
 
 export default function BeerGrid({ beers }: BeerGridProps) {
