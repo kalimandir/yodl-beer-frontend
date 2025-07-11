@@ -1,5 +1,6 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { createFileRoute } from '@tanstack/react-router';
-import logo from '../logo.svg';
+import Container from '@/components/Container';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -7,29 +8,21 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className='text-center'>
-      <header className='min-h-screen flex flex-col items-center justify-center text-white text-[calc(10px+2vmin)]'>
-        <img src={logo} className='h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]' alt='logo' />
-        <p>
-          Edit <code>src/routes/index.tsx</code> and save to reload.
-        </p>
-        <a
-          className='text-[#61dafb] hover:underline'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-        <a
-          className='text-[#61dafb] hover:underline'
-          href='https://tanstack.com'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn TanStack
-        </a>
-      </header>
-    </div>
+    <Container>
+      <div className='flex flex-col items-center justify-center min-h-[80vh] gap-8'>
+        <Card className='max-w-md'>
+          <CardHeader>
+            <CardTitle>Glassmorphism Card</CardTitle>
+            <CardDescription>A beautiful glass effect card component</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className='text-sm'>
+              This card demonstrates the glassmorphism effect with backdrop blur, transparency, and subtle borders for a
+              modern UI feel.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </Container>
   );
 }
