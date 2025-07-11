@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
@@ -9,6 +10,7 @@ export const Route = createRootRoute({
       <Header />
 
       <Outlet />
+      <ReactQueryDevtools buttonPosition='top-right' />
       <TanStackRouterDevtools />
     </>
   ),
