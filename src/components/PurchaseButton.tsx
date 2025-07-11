@@ -18,41 +18,42 @@ export default function PurchaseButton({ beerTap, variant = 'default' }: Purchas
         amount: parseFloat(beerTap.transactionAmount),
         currency: beerTap.transactionCurrency as FiatCurrency,
         memo: beerTap.transactionMemo,
-        redirectUrl: window.location.href
+        redirectUrl: window.location.href,
       });
     },
-    onSuccess: (response) => {
+    onSuccess: response => {
       console.log('Payment successful:', response);
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Payment failed:', error);
-    }
+    },
   });
 
   if (paymentMutation.isSuccess) {
     return (
-      <Button variant="outline" disabled>
+      <Button variant='outline' disabled>
         Purchase Successful ✓
       </Button>
     );
   }
 
   return (
-    <div className="space-y-2">
-      <Button 
-        onClick={() => paymentMutation.mutate()} 
+    <div className='space-y-2'>
+      <Button
+        onClick={() => paymentMutation.mutate()}
         disabled={paymentMutation.isPending}
         variant={variant}
-        className="w-full"
+        className='w-full'
       >
-        {paymentMutation.isPending ? 'Processing...' : `Buy for ${beerTap.transactionCurrency} ${beerTap.transactionAmount}`}
+        {paymentMutation.isPending
+          ? 'Processing...'
+          : `Buy for ${beerTap.transactionCurrency} ${beerTap.transactionAmount}`}
       </Button>
       {paymentMutation.isError && (
-        <div className="text-sm text-red-600 text-center">
+        <div className='text-sm text-red-600 text-center'>
           {paymentMutation.error instanceof Error && paymentMutation.error.message === 'Payment was cancelled'
             ? 'Payment cancelled'
-            : `Payment failed: ${paymentMutation.error instanceof Error ? paymentMutation.error.message : 'Unknown error'}`
-          }
+            : `Payment failed: ${paymentMutation.error instanceof Error ? paymentMutation.error.message : 'Unknown error'}`}
         </div>
       )}
     </div>
