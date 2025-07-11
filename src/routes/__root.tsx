@@ -6,12 +6,15 @@ import Header from '../components/Header';
 
 export const Route = createRootRoute({
   component: () => (
-    <>
+    <div className="min-h-screen">
       <Header />
-
-      <Outlet />
+      
+      <main className="pt-20">
+        <Outlet />
+      </main>
+      
       <ReactQueryDevtools buttonPosition='top-right' />
       <TanStackRouterDevtools />
-    </>
+    </div>
   ),
 });
