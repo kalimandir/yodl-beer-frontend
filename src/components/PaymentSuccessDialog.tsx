@@ -1,43 +1,66 @@
+import { useQuery } from '@tanstack/react-query';
+import { useSearch } from '@tanstack/react-router';
+import YappSDK, { type Hex, type PaymentSimple } from '@yodlpay/yapp-sdk';
+import { CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { CheckCircle2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import type { BeerTapsResponse } from '@/types/beer';
 
 interface PaymentSuccessDialogProps {
   location: string;
+  beerTapsResponse: BeerTapsResponse;
 }
 
-export default function PaymentSuccessDialog({ location }: PaymentSuccessDialogProps) {
-  const navigate = useNavigate();
-  const search = useSearch({ strict: false });
+export default function PaymentSuccessDialog({ location, beerTapsResponse }: PaymentSuccessDialogProps) {
+  const search = useSearch({ strict: false }) as { txHash?: string };
   const [isOpen, setIsOpen] = useState(false);
 
-  // Extract payment parameters from URL
-  const txHash = search.txHash as string;
-  const chainId = search.chainId as string;
-  const amount = search.amount as string;
+  const txHash = search.txHash;
 
-  useEffect(() => {
-    // Show dialog if payment success parameters are present
-    if (txHash && chainId && amount) {
-      setIsOpen(true);
+  const validatePayment = async (): Promise<PaymentSimple> => {
+    const sdk = new YappSDK();
+    const payment = await sdk.getPayment(txHash as Hex);
+
+    if (!payment) {
+      throw new Error('Payment not found');
     }
-  }, [txHash, chainId, amount]);
 
-  const handleClose = () => {
-    setIsOpen(false);
-    // Clean up URL parameters and redirect to location page
-    navigate({
-      to: '/location/$location',
-      params: { location },
-      replace: true,
-    });
+    const beerTap = beerTapsResponse.data.beerTaps.find(tap => tap.transactionMemo === payment.memo);
+
+    if (!beerTap) {
+      throw new Error('Beer tap not found for this payment');
+    }
+
+    const isAmountValid = payment.invoiceAmount >= beerTap.transactionAmount;
+    const isCurrencyValid = payment.invoiceCurrency === beerTap.transactionCurrency;
+
+    if (!isAmountValid || !isCurrencyValid) {
+      throw new Error('Payment amount or currency does not match beer tap requirements');
+    }
+
+    setIsOpen(true);
+    return payment;
   };
 
-  if (!txHash || !chainId || !amount) {
+  const {
+    data: payment,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['payment', txHash],
+    queryFn: validatePayment,
+    enabled: !!txHash,
+  });
+
+  const shouldShowDialog = txHash && !isLoading && !error && payment;
+
+  if (!shouldShowDialog) {
     return null;
   }
+
+  const handleClose = () => setIsOpen(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -53,11 +76,9 @@ export default function PaymentSuccessDialog({ location }: PaymentSuccessDialogP
         </DialogHeader>
 
         <div className='space-y-4'>
-          <div className='flex gap-2'>
-            <Button onClick={handleClose} className='flex-1'>
-              Continue Shopping
-            </Button>
-          </div>
+          <Button onClick={handleClose} className='w-full'>
+            Continue Shopping
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

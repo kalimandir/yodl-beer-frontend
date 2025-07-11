@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import Container from '@/components/Container';
-import { fetchBeerTaps } from '@/lib/api';
 import BeerGrid from '@/components/BeerGrid';
+import Container from '@/components/Container';
 import LocationHeader from '@/components/LocationHeader';
 import PaymentSuccessDialog from '@/components/PaymentSuccessDialog';
+import { fetchBeerTaps } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/location/$location')({
   component: LocationPage,
@@ -55,7 +55,7 @@ function LocationPage() {
 
   return (
     <Container>
-      <PaymentSuccessDialog location={location} />
+      <PaymentSuccessDialog location={location} beerTapsResponse={data} />
       <LocationHeader location={location} count={data.data.beerTaps.length} />
       <BeerGrid beers={data.data.beerTaps} />
     </Container>
