@@ -1,291 +1,144 @@
-Welcome to your new TanStack app!
+# 🍺 Yodl Beer Frontend
 
-# Getting Started
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-To run this application:
+> A modern React application that connects crypto payments to physical beer dispensing through IoT integration. Part of a complete blockchain-to-beer ecosystem that transforms cryptocurrency transactions into freshly poured beverages. 🚀
+
+## ✨ Features
+
+- 🍻 **Browse beer taps by location** - Discover available beers at different venues
+- 💳 **Crypto payment integration** - Seamless payments via Yodl Pay SDK
+- ⚡ **Real-time status tracking** - Live updates with 1-second polling
+- 🎨 **Glassmorphism design** - Modern, responsive UI with Tailwind CSS
+- 📊 **Queue position updates** - Know exactly where you are in line
+- 🔄 **Smart polling** - Stops polling on completion to save resources
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| ![React](https://img.shields.io/badge/React_19-20232A?style=flat&logo=react&logoColor=61DAFB) | Modern UI with TypeScript |
+| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) | Fast development and building |
+| ![TanStack](https://img.shields.io/badge/TanStack-FF4154?style=flat&logo=react-query&logoColor=white) | Router & Query for data fetching |
+| ![Tailwind](https://img.shields.io/badge/Tailwind_4.0-38B2AC?style=flat&logo=tailwind-css&logoColor=white) | Modern styling system |
+| ![Shadcn](https://img.shields.io/badge/Shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white) | Beautiful UI components |
+| ![Yodl](https://img.shields.io/badge/Yodl_Pay-4A90E2?style=flat&logo=ethereum&logoColor=white) | Crypto payment integration |
+
+## 🚀 Quick Start
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/yodl-beer-frontend.git
+cd yodl-beer-frontend
+
+# Install dependencies
 pnpm install
-pnpm start
+
+# Start development server
+pnpm dev
 ```
 
-# Building For Production
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To build this application for production:
+## 🧪 Development Commands
 
-```bash
-pnpm build
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build for production |
+| `pnpm test` | Run test suite |
+| `pnpm lint` | Check code quality |
+| `pnpm format` | Format code with Prettier |
+| `pnpx shadcn@latest add [component]` | Add UI components |
+
+## 🗺️ Routes
+
+| Route | Description |
+|-------|-------------|
+| `/` | Home page with location browser |
+| `/location/[location]` | Beer taps with payment integration |
+
+## 💳 Payment Flow
+
+```mermaid
+graph LR
+    A[Browse Beers] --> B[Select Beer]
+    B --> C[Initiate Payment]
+    C --> D[Crypto Transaction]
+    D --> E[Real-time Status]
+    E --> F[Beer Dispensed]
 ```
 
-## Testing
+1. 🍺 **Browse** available beer taps at a location
+2. 💰 **Pay** with crypto via Yodl Pay integration  
+3. 📡 **Track** real-time status with beer-themed messaging
+4. ⏳ **Queue** position updates for pending orders
+5. ✅ **Enjoy** completion notification when ready
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## 🏗️ System Architecture
 
-```bash
-pnpm test
+This frontend is part of a complete **IoT beer dispensing ecosystem**:
+
+### 🔗 Connected Components
+
+<table>
+<tr>
+<td width="33%">
+
+**🖥️ Frontend** *(This Repo)*
+- React app for ordering
+- Real-time status tracking  
+- Crypto payment integration
+
+</td>
+<td width="33%">
+
+**🔧 [Smart Beer Tap](https://github.com/MihkelJ/smart-beer-tap-system)**
+- ESP32 hardware control
+- Precise flow control (50ml-2L)
+- Blynk IoT integration
+- Safety mechanisms
+
+</td>
+<td width="33%">
+
+**⚡ [Webhook Service](https://github.com/MihkelJ/yodl-store-webhook)**  
+- Payment processing
+- Transaction validation
+- Hardware triggering
+- Status API
+
+</td>
+</tr>
+</table>
+
+### 🔄 Complete Flow: Crypto → Beer
+
+```mermaid
+graph TD
+    A[🍺 Customer browses taps] --> B[💳 Frontend initiates payment]
+    B --> C[🔗 Yodl Pay processes transaction]
+    C --> D[📡 Webhook validates payment]
+    D --> E[🤖 Triggers ESP32 via Blynk]
+    E --> F[🚰 Hardware dispenses beer]
+    F --> G[📊 Frontend shows completion]
 ```
 
-## Styling
+> **The result:** Cryptocurrency payments directly control physical beer dispensing with precision IoT hardware and real-time status updates.
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+---
 
-## Shadcn
+## 🤝 Contributing
 
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-```bash
-pnpx shadcn@latest add button
-```
+## 📄 License
 
-## Routing
+This project is licensed under the MIT License.
 
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
+## 🌟 Built With Love
 
-### Adding A Route
-
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from '@tanstack/react-router';
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to='/about'>About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-
-import { Link } from '@tanstack/react-router';
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to='/'>Home</Link>
-          <Link to='/about'>About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/people',
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people');
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map(person => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-pnpm add @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition='top-right' />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from '@tanstack/react-query';
-
-import './App.css';
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ['people'],
-    queryFn: () =>
-      fetch('https://swapi.dev/api/people')
-        .then(res => res.json())
-        .then(data => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map(person => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-pnpm add @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from '@tanstack/react-store';
-import { Store } from '@tanstack/store';
-import './App.css';
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState(n => n + 1)}>Increment - {count}</button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from '@tanstack/react-store';
-import { Store, Derived } from '@tanstack/store';
-import './App.css';
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState(n => n + 1)}>Increment - {count}</button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+*The ultimate blockchain-to-beer experience!* 🍺⚡🚀
