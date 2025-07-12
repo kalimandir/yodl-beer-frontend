@@ -18,20 +18,20 @@
 
 ## 🛠️ Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| ![React](https://img.shields.io/badge/React_19-20232A?style=flat&logo=react&logoColor=61DAFB) | Modern UI with TypeScript |
-| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) | Fast development and building |
-| ![TanStack](https://img.shields.io/badge/TanStack-FF4154?style=flat&logo=react-query&logoColor=white) | Router & Query for data fetching |
-| ![Tailwind](https://img.shields.io/badge/Tailwind_4.0-38B2AC?style=flat&logo=tailwind-css&logoColor=white) | Modern styling system |
-| ![Shadcn](https://img.shields.io/badge/Shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white) | Beautiful UI components |
-| ![Yodl](https://img.shields.io/badge/Yodl_Pay-4A90E2?style=flat&logo=ethereum&logoColor=white) | Crypto payment integration |
+| Technology                                                                                                 | Purpose                          |
+| ---------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| ![React](https://img.shields.io/badge/React_19-20232A?style=flat&logo=react&logoColor=61DAFB)              | Modern UI with TypeScript        |
+| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)                     | Fast development and building    |
+| ![TanStack](https://img.shields.io/badge/TanStack-FF4154?style=flat&logo=react-query&logoColor=white)      | Router & Query for data fetching |
+| ![Tailwind](https://img.shields.io/badge/Tailwind_4.0-38B2AC?style=flat&logo=tailwind-css&logoColor=white) | Modern styling system            |
+| ![Shadcn](https://img.shields.io/badge/Shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white)          | Beautiful UI components          |
+| ![Yodl](https://img.shields.io/badge/Yodl_Pay-4A90E2?style=flat&logo=ethereum&logoColor=white)             | Crypto payment integration       |
 
 ## 🚀 Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/yodl-beer-frontend.git
+git clone https://github.com/MihkelJ/yodl-beer-frontend.git
 cd yodl-beer-frontend
 
 # Install dependencies
@@ -45,20 +45,20 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🧪 Development Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
-| `pnpm test` | Run test suite |
-| `pnpm lint` | Check code quality |
-| `pnpm format` | Format code with Prettier |
-| `pnpx shadcn@latest add [component]` | Add UI components |
+| Command                              | Description               |
+| ------------------------------------ | ------------------------- |
+| `pnpm dev`                           | Start development server  |
+| `pnpm build`                         | Build for production      |
+| `pnpm test`                          | Run test suite            |
+| `pnpm lint`                          | Check code quality        |
+| `pnpm format`                        | Format code with Prettier |
+| `pnpx shadcn@latest add [component]` | Add UI components         |
 
 ## 🗺️ Routes
 
-| Route | Description |
-|-------|-------------|
-| `/` | Home page with location browser |
+| Route                  | Description                        |
+| ---------------------- | ---------------------------------- |
+| `/`                    | Home page with location browser    |
 | `/location/[location]` | Beer taps with payment integration |
 
 ## 💳 Payment Flow
@@ -73,7 +73,7 @@ graph LR
 ```
 
 1. 🍺 **Browse** available beer taps at a location
-2. 💰 **Pay** with crypto via Yodl Pay integration  
+2. 💰 **Pay** with crypto via Yodl Pay integration
 3. 📡 **Track** real-time status with beer-themed messaging
 4. ⏳ **Queue** position updates for pending orders
 5. ✅ **Enjoy** completion notification when ready
@@ -88,15 +88,17 @@ This frontend is part of a complete **IoT beer dispensing ecosystem**:
 <tr>
 <td width="33%">
 
-**🖥️ Frontend** *(This Repo)*
+**🖥️ Frontend** _(This Repo)_
+
 - React app for ordering
-- Real-time status tracking  
+- Real-time status tracking
 - Crypto payment integration
 
 </td>
 <td width="33%">
 
 **🔧 [Smart Beer Tap](https://github.com/MihkelJ/smart-beer-tap-system)**
+
 - ESP32 hardware control
 - Precise flow control (50ml-2L)
 - Blynk IoT integration
@@ -105,7 +107,8 @@ This frontend is part of a complete **IoT beer dispensing ecosystem**:
 </td>
 <td width="33%">
 
-**⚡ [Webhook Service](https://github.com/MihkelJ/yodl-store-webhook)**  
+**⚡ [Webhook Service](https://github.com/MihkelJ/yodl-store-webhook)**
+
 - Payment processing
 - Transaction validation
 - Hardware triggering
@@ -141,4 +144,4 @@ This project is licensed under the MIT License.
 
 ## 🌟 Built With Love
 
-*The ultimate blockchain-to-beer experience!* 🍺⚡🚀
+_The ultimate blockchain-to-beer experience!_ 🍺⚡🚀
