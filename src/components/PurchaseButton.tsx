@@ -38,8 +38,6 @@ export default function PurchaseButton({ beerTap, variant = 'default' }: Purchas
   });
 
   const handleAnimationComplete = () => {
-    setShowAnimation(false);
-    
     // After animation, proceed with Yodl payment flow
     if (process.env.NODE_ENV === 'development') {
       // In development, directly trigger the Yodl payment flow
