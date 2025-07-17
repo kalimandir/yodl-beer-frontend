@@ -5,9 +5,11 @@ interface LocationHeaderProps {
 
 export default function LocationHeader({ location, count }: LocationHeaderProps) {
   return (
-    <div className='mb-8'>
-      <h1 className='text-3xl font-bold text-gray-900 mb-2'>{location.toUpperCase()} Beer Taps</h1>
-      <p className='text-gray-600'>
+    <div className='mb-12 text-center'>
+      <h1 className='text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none mb-4'>
+        {location.toUpperCase()} BEER TAPS
+      </h1>
+      <p className='text-xl sm:text-2xl text-gray-700 font-bold'>
         {count === 0
           ? 'No beers currently available on tap'
           : `${count} beer${count === 1 ? '' : 's'} available on tap`}
