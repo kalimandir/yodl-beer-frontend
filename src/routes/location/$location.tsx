@@ -78,7 +78,7 @@ function LocationPage() {
       <div className='min-h-screen bg-white text-black font-sans'>
         <Container>
           <div className='flex items-center justify-center min-h-[60vh]'>
-            <div className='text-2xl font-black text-center'>Loading beer taps...</div>
+            <div className='text-3xl sm:text-4xl md:text-5xl font-black text-center tracking-tight'>Loading beer taps...</div>
           </div>
         </Container>
       </div>
@@ -90,8 +90,8 @@ function LocationPage() {
       <div className='min-h-screen bg-white text-black font-sans'>
         <Container>
           <div className='flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center'>
-            <div className='text-2xl font-black text-red-600'>Failed to load beer taps</div>
-            <div className='text-lg text-gray-600 font-medium'>
+            <div className='text-3xl sm:text-4xl md:text-5xl font-black text-red-600 tracking-tight'>Failed to load beer taps</div>
+            <div className='text-xl sm:text-2xl text-gray-600 font-bold'>
               {error instanceof Error ? error.message : 'Unknown error occurred'}
             </div>
           </div>
@@ -106,8 +106,8 @@ function LocationPage() {
         <Container>
           <LocationHeader location={location} count={0} />
           <div className='flex flex-col items-center justify-center min-h-[40vh] gap-4 text-center'>
-            <div className='text-2xl font-black'>No beer taps available</div>
-            <div className='text-lg text-gray-600 font-medium'>
+            <div className='text-3xl sm:text-4xl md:text-5xl font-black tracking-tight'>No beer taps available</div>
+            <div className='text-xl sm:text-2xl text-gray-600 font-bold'>
               There are currently no beers on tap at {location.toUpperCase()}
             </div>
           </div>

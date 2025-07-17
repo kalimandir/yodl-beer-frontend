@@ -29,7 +29,7 @@ function App() {
             <img 
               src='/crypto+beer.png' 
               alt='Crypto + Beer'
-              className='absolute -top-6 left-1/2 -ml-20 w-16 h-12 drop-shadow-lg'
+              className='absolute -top-6 left-1/2 -ml-20 w-16 h-12 drop-shadow-lg shake-on-load'
             />
           </div>
           
@@ -48,7 +48,7 @@ function App() {
             <Link to='/location/$location' params={{ location: 'demo' }}>
               <Button 
                 size='lg'
-                className='text-sm sm:text-base md:text-lg px-12 sm:px-16 md:px-20 py-6 sm:py-8 bg-black text-white hover:bg-gray-800 font-black tracking-wide transition-colors'
+                className='text-sm sm:text-base md:text-lg px-12 sm:px-16 md:px-20 py-6 sm:py-8 bg-black text-white hover:bg-gray-800 font-semibold tracking-wide transition-colors'
               >
                 VIEW LOCATIONS
               </Button>
