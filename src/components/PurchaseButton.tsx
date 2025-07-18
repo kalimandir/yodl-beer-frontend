@@ -1,100 +1,79 @@
 import type { BeerTap } from '@/types/beer';
-import { useMutation } from '@tanstack/react-query';
-import YappSDK, { FiatCurrency } from '@yodlpay/yapp-sdk';
-import CheeersAnimation from '@/components/CheeersAnimation';
+import ASCIIBeerAnimation from '@/components/ASCIIBeerAnimation';
 import { useState } from 'react';
 
 interface PurchaseButtonProps {
   beerTap: BeerTap['beerTaps'][number];
-  variant?: 'default' | 'outline' | 'secondary';
 }
 
-const sdk = new YappSDK();
-
-export default function PurchaseButton({ beerTap, variant = 'default' }: PurchaseButtonProps) {
+export default function PurchaseButton({ beerTap }: PurchaseButtonProps) {
   const [showAnimation, setShowAnimation] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   
   const handlePaymentRedirect = async () => {
     const { origin, pathname } = window.location;
-    return await sdk.requestPayment({
-      addressOrEns: beerTap.transactionReceiverEns,
-      amount: parseFloat(beerTap.transactionAmount),
-      currency: beerTap.transactionCurrency as FiatCurrency,
-      memo: beerTap.transactionMemo,
-      redirectUrl: `${origin}${pathname}`, // We don't want to pass params to the redirect url
-    });
-  };
-
-  const paymentMutation = useMutation({
-    mutationFn: handlePaymentRedirect,
-    onSuccess: response => {
-      console.log('Payment successful:', response);
-      setShowAnimation(true);
-    },
-    onError: error => {
-      console.error('Payment failed:', error);
-    },
-  });
-
-  const handleAnimationComplete = () => {
-    // After animation, proceed with Yodl payment flow
-    if (import.meta.env.DEV) {
-      // In development, directly trigger the Yodl payment flow
-      handlePaymentRedirect().catch(error => {
-        console.error('Failed to redirect to Yodl:', error);
-      });
-    }
-    // In production, the payment flow would already be handled by the mutation
+    
+    // Show animation first
+    setShowAnimation(true);
+    setIsPending(true);
+    
+    // Wait a moment for the animation to show
+    setTimeout(() => {
+      // Try to use the actual Yodl SDK if available, otherwise fallback to direct URL
+      try {
+        // Import and use the real Yodl SDK
+        import('@yodlpay/yapp-sdk').then(async (yappModule) => {
+          const YappSDK = yappModule.default;
+          const sdk = new YappSDK();
+          
+          await sdk.requestPayment({
+            addressOrEns: beerTap.transactionReceiverEns,
+            amount: parseFloat(beerTap.transactionAmount),
+            currency: beerTap.transactionCurrency as any,
+            memo: `${beerTap.title} - ${beerTap.location}`,
+            redirectUrl: `${origin}${pathname}?success=true&paymentId={payment_id}`,
+          });
+        }).catch((error) => {
+          console.error('Yodl SDK error, falling back to direct redirect:', error);
+          // Fallback to direct URL redirect
+          const yodlBaseUrl = 'https://app.yodl.me/pay';
+          const paymentParams = new URLSearchParams({
+            address: beerTap.transactionReceiverEns,
+            amount: beerTap.transactionAmount,
+            currency: beerTap.transactionCurrency,
+            memo: `${beerTap.title} - ${beerTap.location}`,
+            redirectUrl: `${origin}${pathname}?success=true&paymentId={payment_id}`,
+          });
+          
+          const yodlPaymentUrl = `${yodlBaseUrl}?${paymentParams.toString()}`;
+          console.log('Redirecting to Yodl:', yodlPaymentUrl);
+          window.location.href = yodlPaymentUrl;
+        });
+      } catch (error) {
+        console.error('Failed to load Yodl SDK:', error);
+        setShowAnimation(false);
+        setIsPending(false);
+        alert('Payment failed to initialize. Please try again.');
+      }
+    }, 1000); // 1 second delay to show animation
   };
 
   if (showAnimation) {
-    return (
-      <CheeersAnimation 
-        onComplete={handleAnimationComplete}
-      />
-    );
-  }
-
-  if (paymentMutation.isSuccess && !showAnimation) {
-    return (
-      <button 
-        disabled 
-        className='w-full font-mono px-4 py-3 bg-black border-2 border-green-600 text-green-600 
-                   text-sm hover:bg-green-900/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed'
-      >
-        $ transaction_complete ✓
-      </button>
-    );
+    return <ASCIIBeerAnimation />;
   }
 
   return (
-    <div className='space-y-2'>
-      <button
-        onClick={() => {
-          // For testing: trigger animation directly in development
-          if (import.meta.env.DEV) {
-            setShowAnimation(true);
-          } else {
-            paymentMutation.mutate();
-          }
-        }}
-        disabled={paymentMutation.isPending}
-        className='w-full font-mono px-4 py-3 bg-black border-2 border-green-700 text-green-400 
-                   text-sm hover:bg-green-900/30 hover:border-green-500 hover:text-green-300
-                   transition-colors disabled:opacity-60 disabled:cursor-not-allowed
-                   disabled:hover:bg-black disabled:hover:border-green-700 disabled:hover:text-green-400'
-      >
-        {paymentMutation.isPending
-          ? '$ processing_payment...'
-          : `$ purchase_beer --price=${beerTap.transactionAmount}`}
-      </button>
-      {paymentMutation.isError && (
-        <div className='text-xs text-red-400 text-center font-mono'>
-          {paymentMutation.error instanceof Error && paymentMutation.error.message === 'Payment was cancelled'
-            ? '> Payment cancelled'
-            : `> Payment failed: ${paymentMutation.error instanceof Error ? paymentMutation.error.message : 'Unknown error'}`}
-        </div>
-      )}
-    </div>
+    <button 
+      onClick={handlePaymentRedirect}
+      disabled={isPending}
+      className='w-full font-mono px-4 py-3 bg-black border-2 border-green-700 text-green-400 
+                 text-sm hover:bg-green-900/30 hover:border-green-500 hover:text-green-300
+                 transition-colors disabled:opacity-60 disabled:cursor-not-allowed
+                 disabled:hover:bg-black disabled:hover:border-green-700 disabled:hover:text-green-400'
+    >
+      {isPending 
+        ? '$ processing_payment...'
+        : `$ purchase_beer --price=${beerTap.transactionAmount}`}
+    </button>
   );
 }

@@ -66,7 +66,7 @@ export default function BeerCard({ beerTap }: BeerCardProps) {
   const { badge, color } = getASCIIBadge(beerType);
 
   return (
-    <div className='h-full flex flex-col border-2 border-green-700 bg-black p-4 font-mono'>
+    <div className='relative h-full flex flex-col border-2 border-green-700 bg-black p-4 font-mono'>
       {/* Terminal Header */}
       <div className='mb-4'>
         <div className='text-green-300 text-xs sm:text-sm mb-2'>
@@ -118,7 +118,7 @@ export default function BeerCard({ beerTap }: BeerCardProps) {
 
       {/* Purchase Button */}
       <div className='mt-auto pt-4 border-t border-green-700'>
-        <PurchaseButton beerTap={beerTap} variant="outline" />
+        <PurchaseButton beerTap={beerTap} />
       </div>
     </div>
   );
