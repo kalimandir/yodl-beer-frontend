@@ -1,6 +1,4 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
-import Container from '@/components/Container';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -8,70 +6,96 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className='min-h-screen bg-white text-black font-sans'>
-      <Container className='px-2 sm:px-4'>
-        <div className='flex flex-col items-center justify-start min-h-[40vh] text-center pt-1'>
+    <div className='min-h-screen bg-black text-green-400 font-mono'>
+      <div className='container mx-auto px-4 py-8'>
           
-          {/* Header Image */}
-          <div className='w-full max-w-[180px] sm:max-w-[220px] md:max-w-[280px] mb-8 sm:mb-12 md:mb-16 shimmer-effect'>
-            <img 
-              src='/tap-that-header.png' 
-              alt='TapThat Header'
-              className='w-full h-auto object-contain'
-            />
+          {/* Terminal Header */}
+          <div className='w-full mb-4'>
+            <div className='text-green-300 text-xs sm:text-sm mb-2'>
+              $ ssh user@tapthat.terminal
+            </div>
+            <div className='text-green-500 text-xs sm:text-sm mb-4'>
+              Connection established...
+            </div>
           </div>
           
-          {/* Logo/Title */}
-          <div className='relative mb-4 sm:mb-6 w-full overflow-visible'>
-            <h1 className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none'>
-              TAPTHAT
-            </h1>
-            <img 
-              src='/crypto+beer.png' 
-              alt='Crypto + Beer'
-              className='absolute -top-6 left-1/2 -ml-20 w-16 h-12 drop-shadow-lg'
-            />
+          {/* TAPTHAT Logo - Retroctech Font */}
+          <div className='mb-6 text-left w-full'>
+            <div className='flex items-center gap-4 sm:gap-6 overflow-hidden'>
+              <div className='text-5xl sm:text-6xl lg:text-7xl font-bold tracking-wider text-green-400 py-4 font-retro'>
+                TAPTHAT<span className='cursor-blink'>_</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                {/* Beer Mug */}
+                <div className='text-green-400 font-mono text-lg sm:text-xl lg:text-2xl beer-bounce'>
+                  <pre className='leading-tight'>{`
+ ░░░░░
+ ███████
+ █████ █
+ █████ █
+ █████ █
+ ██████
+ █████
+                  `}</pre>
+                </div>
+              </div>
+            </div>
           </div>
           
-          {/* Tagline */}
-          <p className='text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-700 leading-tight mb-4 sm:mb-6'>
-            CRYPTO POWERED. SELF-SERVICE BEER.
-          </p>
-          
-          {/* Description */}
-          <p className='text-lg sm:text-xl md:text-2xl text-gray-600 max-w-sm sm:max-w-lg md:max-w-2xl leading-relaxed px-4 mb-6 sm:mb-8'>
-            Pay with MetaMask, any token, any chain. Pour your beer.
-          </p>
-
-          {/* CTA */}
-          <div className='flex flex-col items-center gap-4'>
-            <Link to='/location/$location' params={{ location: 'demo' }}>
-              <Button 
-                size='lg'
-                className='text-sm sm:text-base md:text-lg px-12 sm:px-16 md:px-20 py-6 sm:py-8 bg-black text-white hover:bg-gray-800 font-black tracking-wide transition-colors'
-              >
-                VIEW LOCATIONS
-              </Button>
-            </Link>
-            
-            <div className='flex justify-center w-full'>
-              <a 
-                href="#" 
-                className='flex items-center gap-3 text-[10px] font-bold text-green-500 hover:text-green-400 transition-all tracking-wider uppercase underline hover:no-underline hover:scale-105 cursor-pointer'
-                style={{ fontFamily: 'Orbitron, monospace' }}
-              >
-                <img 
-                  src='/computer.png' 
-                  alt='Computer'
-                  className='w-11 h-11 computer-flicker'
-                />
-                tap-that, hackable self service tap
-              </a>
+          {/* System Info */}
+          <div className='mb-6 space-y-2 text-xs sm:text-sm'>
+            <div className='flex flex-row gap-1 sm:gap-2 overflow-hidden'>
+              <span className='text-green-300'>SYSTEM:</span> 
+              <span className='text-white text-xs sm:text-sm truncate'>CRYPTO POWERED SELF-SERVICE BEER TERMINAL</span>
+            </div>
+            <div>
+              <span className='text-green-300'>STATUS:</span> <span className='text-green-400'>ONLINE</span>
+            </div>
+            <div className='flex flex-row gap-1 sm:gap-2 overflow-hidden'>
+              <span className='text-green-300'>PAYMENT:</span> 
+              <span className='text-yellow-400 text-xs sm:text-sm truncate'>YOUR WALLET | ANY TOKEN | ANY CHAIN</span>
             </div>
           </div>
 
-        </div>
-      </Container>
+          {/* Terminal Description */}
+          <div className='mb-6 text-green-400 w-full'>
+            <div className='text-green-300 mb-2 text-xs sm:text-sm'>$ cat README.txt</div>
+            <div className='pl-2 border-l-2 border-green-700 text-xs sm:text-sm leading-relaxed'>
+              Revolutionary self-service beer dispensing system.<br/>
+                              Select beer. Connect wallet. Pay. Pour beer.<br/>
+                              Onchain payments only. No credit cards.
+            </div>
+          </div>
+
+          {/* Commands Menu */}
+          <div className='w-full'>
+            <div className='text-green-300 mb-4 text-xs sm:text-sm'>Available commands:</div>
+            <div className='space-y-4 max-w-full sm:max-w-md'>
+            
+            <Link to='/location/$location' params={{ location: 'demo' }}>
+              <div className='mb-4 hover:bg-green-900/20 p-3 rounded border border-green-700 hover:border-green-500 transition-colors cursor-pointer'>
+                <div className='text-xs sm:text-sm'>
+                  <span className='text-green-400'>$</span> <span className='text-white'>view_locations</span>
+                </div>
+                <div className='text-xs text-green-600 ml-2 sm:ml-4 mt-1'>Access available tap locations</div>
+              </div>
+            </Link>
+            
+            <div className='hover:bg-green-900/20 p-3 rounded border border-green-700 hover:border-green-500 transition-colors cursor-pointer'>
+              <div className='text-xs sm:text-sm'>
+                <span className='text-green-400'>$</span> <span className='text-white'>system_info</span>
+              </div>
+              <div className='text-xs text-green-600 ml-2 sm:ml-4 mt-1'>Hackable self-service tap protocol</div>
+            </div>
+            
+            <div className='text-purple-400 text-xs mt-2'>powered by yodl</div>
+            
+            </div>
+          </div>
+
+
+
+      </div>
     </div>
   );
 }
