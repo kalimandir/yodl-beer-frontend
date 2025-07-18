@@ -72,7 +72,7 @@ export default function ASCIIBeerAnimation({ onComplete }: ASCIIBeerAnimationPro
 
       {/* Loading indicator */}
       <div className='mt-4 text-green-300 text-xs text-center'>
-        <div>Pouring your beer...</div>
+        <div>getting ready to tap_that...</div>
         <div className='mt-2 flex justify-center'>
           <span className='animate-pulse'>{'█'.repeat((currentFrame % 4) + 1)}</span>
           <span className='text-green-700'>{'█'.repeat(4 - (currentFrame % 4))}</span>
