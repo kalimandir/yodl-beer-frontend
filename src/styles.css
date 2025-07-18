@@ -215,5 +215,65 @@ code {
       opacity: 0.95;
     }
   }
+  
+  .beer-bounce {
+    animation: beer-bounce 2s ease-in-out infinite;
+  }
+  
+  .beer-foam {
+    animation: foam-fizz 3s ease-in-out infinite;
+  }
+  
+  @keyframes beer-bounce {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-2px) rotate(1deg);
+    }
+    50% {
+      transform: translateY(-4px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-2px) rotate(-1deg);
+    }
+  }
+  
+  @keyframes foam-fizz {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+  
+  .coins-float {
+    animation: coins-twinkle 2s ease-in-out infinite;
+  }
+  
+  @keyframes coins-twinkle {
+    0%, 100% {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+  
+  .cursor-blink {
+    animation: cursor-blink 1s ease-in-out infinite;
+  }
+  
+  @keyframes cursor-blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
 }
 
