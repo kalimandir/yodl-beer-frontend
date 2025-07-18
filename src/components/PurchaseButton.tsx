@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import type { BeerTap } from '@/types/beer';
 import { useMutation } from '@tanstack/react-query';
 import YappSDK, { FiatCurrency } from '@yodlpay/yapp-sdk';
@@ -39,7 +38,7 @@ export default function PurchaseButton({ beerTap, variant = 'default' }: Purchas
 
   const handleAnimationComplete = () => {
     // After animation, proceed with Yodl payment flow
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       // In development, directly trigger the Yodl payment flow
       handlePaymentRedirect().catch(error => {
         console.error('Failed to redirect to Yodl:', error);
@@ -58,36 +57,42 @@ export default function PurchaseButton({ beerTap, variant = 'default' }: Purchas
 
   if (paymentMutation.isSuccess && !showAnimation) {
     return (
-      <Button variant='outline' disabled>
-        Purchase Successful ✓
-      </Button>
+      <button 
+        disabled 
+        className='w-full font-mono px-4 py-3 bg-black border-2 border-green-600 text-green-600 
+                   text-sm hover:bg-green-900/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed'
+      >
+        $ transaction_complete ✓
+      </button>
     );
   }
 
   return (
     <div className='space-y-2'>
-      <Button
+      <button
         onClick={() => {
           // For testing: trigger animation directly in development
-          if (process.env.NODE_ENV === 'development') {
+          if (import.meta.env.DEV) {
             setShowAnimation(true);
           } else {
             paymentMutation.mutate();
           }
         }}
         disabled={paymentMutation.isPending}
-        variant={variant}
-        className='w-full'
+        className='w-full font-mono px-4 py-3 bg-black border-2 border-green-700 text-green-400 
+                   text-sm hover:bg-green-900/30 hover:border-green-500 hover:text-green-300
+                   transition-colors disabled:opacity-60 disabled:cursor-not-allowed
+                   disabled:hover:bg-black disabled:hover:border-green-700 disabled:hover:text-green-400'
       >
         {paymentMutation.isPending
-          ? 'Processing...'
-          : `Buy for ${beerTap.transactionCurrency} ${beerTap.transactionAmount}`}
-      </Button>
+          ? '$ processing_payment...'
+          : `$ purchase_beer --price=${beerTap.transactionAmount}`}
+      </button>
       {paymentMutation.isError && (
-        <div className='text-sm text-red-600 text-center'>
+        <div className='text-xs text-red-400 text-center font-mono'>
           {paymentMutation.error instanceof Error && paymentMutation.error.message === 'Payment was cancelled'
-            ? 'Payment cancelled'
-            : `Payment failed: ${paymentMutation.error instanceof Error ? paymentMutation.error.message : 'Unknown error'}`}
+            ? '> Payment cancelled'
+            : `> Payment failed: ${paymentMutation.error instanceof Error ? paymentMutation.error.message : 'Unknown error'}`}
         </div>
       )}
     </div>
