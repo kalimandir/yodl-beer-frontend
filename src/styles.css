@@ -3,6 +3,18 @@
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: 'RETROTECH';
+  src: url('/RETROTECH.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-retro {
+  font-family: 'RETROTECH', 'Courier New', monospace !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 body {
@@ -131,8 +143,9 @@ code {
     @apply border-gray-200;
   }
   body {
-    @apply bg-white text-black;
+    @apply bg-black text-green-500;
     min-height: 100vh;
+    font-family: 'Courier New', monospace;
   }
 }
 
